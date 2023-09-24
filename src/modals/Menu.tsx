@@ -45,6 +45,7 @@ const LanguageSwitcher = () => {
   type Language = string;
   const supportedLanguages = new Map<LanguageCode, Language>([
     ["en", "english"],
+    ["pt", "português"],
     ["ru", "русский"],
   ]);
 

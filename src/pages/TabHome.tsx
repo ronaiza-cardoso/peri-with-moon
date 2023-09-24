@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   IonContent,
   IonPage,
@@ -12,6 +12,7 @@ import {
 import { App } from "@capacitor/app";
 import { Capacitor } from "@capacitor/core";
 import { useTranslation } from "react-i18next";
+import { Hemisphere, Moon } from "lunarphase-js";
 import { CyclesContext } from "../state/Context";
 
 import { storage } from "../data/Storage";
@@ -61,6 +62,37 @@ const InfoButton = (props: InfoButtonProps) => {
           slot="end"
           icon={chevronForwardOutline}
         />
+      </p>
+    </IonLabel>
+  );
+};
+
+interface MoonInformationProps {
+  currentDate: any;
+}
+const MoonInformation = (props: MoonInformationProps) => {
+  const { t } = useTranslation();
+  const date = new Date();
+  const moonName = Moon.lunarPhase(date, {
+    hemisphere: Hemisphere.SOUTHERN,
+  });
+  const moonEmoji = Moon.lunarPhaseEmoji(date, {
+    hemisphere: Hemisphere.SOUTHERN,
+  });
+
+  console.log("props :>> ", props);
+
+  return (
+    <IonLabel class="info-button">
+      <p
+        style={{
+          fontSize: "14px",
+          color: "var(--ion-color-medium)",
+          marginBottom: "20px",
+        }}
+      >
+        <span style={{ color: "var(--ion-color-dark)" }}>{t(moonName)}</span> -{" "}
+        {moonEmoji}
       </p>
     </IonLabel>
   );
@@ -119,6 +151,8 @@ const TabHome = (props: HomeProps) => {
   const cycles = useContext(CyclesContext).cycles;
   const daysBeforePeriod = getDaysBeforePeriod(cycles);
 
+  console.log("cycles :>> ", cycles);
+
   return (
     <IonPage style={{ backgroundColor: "var(--ion-color-background)" }}>
       <div id="wide-screen">
@@ -155,6 +189,7 @@ const TabHome = (props: HomeProps) => {
               </IonLabel>
             </div>
             <InfoButton setIsInfoModal={setIsInfoModal} />
+            <MoonInformation currentDate={""} />
             <InfoModal
               isOpen={isInfoModal}
               setIsOpen={setIsInfoModal}

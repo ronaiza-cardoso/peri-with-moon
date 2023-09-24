@@ -7,6 +7,7 @@ import intervalPlural from "i18next-intervalplural-postprocessor";
 
 import en from "./translations/en";
 import ru from "./translations/ru";
+import pt from "./translations/pt";
 import { storage } from "./data/Storage";
 
 import App from "./App";
@@ -27,12 +28,15 @@ async function initTranslation() {
         en: {
           translation: en,
         },
+        pt: {
+          translation: pt,
+        },
         ru: {
           translation: ru,
         },
       },
       lng: selectedLanguage,
-      fallbackLng: "en",
+      fallbackLng: "pt",
       interpolation: {
         escapeValue: false,
       },
