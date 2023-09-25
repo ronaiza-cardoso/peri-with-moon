@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   IonContent,
   IonPage,
@@ -72,10 +72,7 @@ const InfoButton = (props: InfoButtonProps) => {
   );
 };
 
-interface MoonInformationProps {
-  currentDate: any;
-}
-const MoonInformation = (props: MoonInformationProps) => {
+const MoonInformation = () => {
   const cycles = useContext(CyclesContext).cycles;
   const { periodLength, startDate } = cycles[0] ?? {};
   const moonPeriod = Array.from({ length: periodLength }).map((_, i) => {
