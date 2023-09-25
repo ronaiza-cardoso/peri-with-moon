@@ -81,14 +81,14 @@ const pt = {
   "Edit cycles": "Editar ciclos",
   "Configuration has been imported": "A configuração foi importada com sucesso",
   "Download latest version": "Baixar a versão mais recente",
-  New: "Lua Nova",
+  New: "Nova",
   "Waxing Crescent": "Lua Crescente",
   "First Quarter": "Primeiro Quarto",
-  "Waxing Gibbous": "Lua Crescente",
-  Full: "Lua Cheia",
-  "Waning Gibbous": "Lua Minguante",
+  "Waxing Gibbous": "Crescente Gibosa",
+  Full: "Cheia",
+  "Waning Gibbous": "Minguante Gibosa",
   "Last Quarter": "Último Quarto",
-  "Waning Crescent": "Lua Minguante Crescente",
+  "Waning Crescent": "Minguante Crescente",
 };
 
 export default pt;

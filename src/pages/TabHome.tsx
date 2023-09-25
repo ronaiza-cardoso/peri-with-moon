@@ -13,6 +13,9 @@ import { App } from "@capacitor/app";
 import { Capacitor } from "@capacitor/core";
 import { useTranslation } from "react-i18next";
 import { Hemisphere, Moon } from "lunarphase-js";
+import { default as dayjs } from "dayjs";
+import "dayjs/locale/pt-br"; // use locale
+
 import { CyclesContext } from "../state/Context";
 
 import { storage } from "../data/Storage";
@@ -28,7 +31,9 @@ import {
   isForecastPeriodDays,
 } from "../state/CalculationLogics";
 
-import { chevronForwardOutline } from "ionicons/icons";
+import { chevronForwardOutline } from "ionicons/icons"; // import locale
+
+dayjs.locale("pt-br");
 
 interface InfoButtonProps {
   setIsInfoModal: (newIsOpen: boolean) => void;
@@ -71,30 +76,54 @@ interface MoonInformationProps {
   currentDate: any;
 }
 const MoonInformation = (props: MoonInformationProps) => {
-  const { t } = useTranslation();
-  const date = new Date();
-  const moonName = Moon.lunarPhase(date, {
-    hemisphere: Hemisphere.SOUTHERN,
-  });
-  const moonEmoji = Moon.lunarPhaseEmoji(date, {
-    hemisphere: Hemisphere.SOUTHERN,
+  const cycles = useContext(CyclesContext).cycles;
+  const { periodLength, startDate } = cycles[0] ?? {};
+  const moonPeriod = Array.from({ length: periodLength }).map((_, i) => {
+    const currentDate = new Date(dayjs(startDate).add(i, "day").toISOString());
+
+    return {
+      date: new Intl.DateTimeFormat(navigator.language).format(currentDate),
+      moonName: Moon.lunarPhase(currentDate, {
+        hemisphere: Hemisphere.SOUTHERN,
+      }),
+      moonEmoji: Moon.lunarPhaseEmoji(currentDate, {
+        hemisphere: Hemisphere.SOUTHERN,
+      }),
+    };
   });
 
-  console.log("props :>> ", props);
+  const { t } = useTranslation();
 
   return (
-    <IonLabel class="info-button">
-      <p
-        style={{
-          fontSize: "14px",
-          color: "var(--ion-color-medium)",
-          marginBottom: "20px",
-        }}
-      >
-        <span style={{ color: "var(--ion-color-dark)" }}>{t(moonName)}</span> -{" "}
-        {moonEmoji}
-      </p>
-    </IonLabel>
+    <>
+      <div style={{ marginBottom: "1rem", marginTop: "1rem" }}>
+        <IonLabel>
+          <p style={{ fontSize: "40px", color: "var(--ion-color-dark)" }}>
+            {t("Moon")}
+          </p>
+        </IonLabel>
+      </div>
+
+      {moonPeriod?.map(({ moonEmoji, moonName, date }) => (
+        <IonLabel
+          class="info-button"
+          key={date}
+        >
+          <p
+            style={{
+              fontSize: "14px",
+              color: "var(--ion-color-medium)",
+              marginBottom: "20px",
+            }}
+          >
+            <span style={{ color: "var(--ion-color-dark)" }}>
+              {moonEmoji} {t(moonName)} -
+            </span>{" "}
+            {date}
+          </p>
+        </IonLabel>
+      ))}
+    </>
   );
 };
 
@@ -150,8 +179,6 @@ const TabHome = (props: HomeProps) => {
   const { t } = useTranslation();
   const cycles = useContext(CyclesContext).cycles;
   const daysBeforePeriod = getDaysBeforePeriod(cycles);
-
-  console.log("cycles :>> ", cycles);
 
   return (
     <IonPage style={{ backgroundColor: "var(--ion-color-background)" }}>
