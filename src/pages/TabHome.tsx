@@ -213,7 +213,7 @@ const TabHome = (props: HomeProps) => {
               </IonLabel>
             </div>
             <InfoButton setIsInfoModal={setIsInfoModal} />
-            <MoonInformation currentDate={""} />
+            <MoonInformation />
             <InfoModal
               isOpen={isInfoModal}
               setIsOpen={setIsInfoModal}
