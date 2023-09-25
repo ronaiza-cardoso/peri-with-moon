@@ -18,8 +18,6 @@ async function initTranslation() {
   const selectedLanguage =
     (await storage.getUnsafe.language()) || navigator.language.split("-")[0];
 
-  console.log(selectedLanguage);
-
   await i18n
     .use(initReactI18next)
     .use(intervalPlural)

@@ -46,7 +46,6 @@ const LanguageSwitcher = () => {
   const supportedLanguages = new Map<LanguageCode, Language>([
     ["en", "english"],
     ["pt", "português"],
-    ["ru", "русский"],
   ]);
 
   const changeLanguage = async (languageCode: string) => {
